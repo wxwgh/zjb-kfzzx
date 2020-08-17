@@ -9,12 +9,12 @@
 <script type="text/javascript" src="leaflet.js"></script>
 <script type="text/javascript" src="iclient-leaflet.js"></script>
 <script type="text/javascript">
-    let host = "http://192.168.1.104:8090";
+    let host = "http://127.0.0.1:8090";
 	let url = host + "/iserver/services/map-china400/rest/maps/China";
     let map = L.map('map', {
         center: [39,105],
-        maxZoom: 18,
-        minZoom: 1,
+        maxZoom: 7,
+        minZoom: 4,
         zoom: 4,
     });
     L.supermap.imageMapLayer(url, {transparent: false}).addTo(map);
