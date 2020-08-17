@@ -20,30 +20,30 @@
 <script>
 export default {
   name: 'DataServer',
-  methods:{
-    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+  methods: {
+    arraySpanMethod ({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
-        if(row.root_row){
-            return [row.root_row,1]
-        }else{
-          return [0,0]
+        if (row.root_row) {
+          return [row.root_row, 1]
+        } else {
+          return [0, 0]
         }
       }
     },
-    cell_highlight({ row, column, rowIndex, columnIndex }){
-      if(columnIndex===1){
+    cell_highlight ({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 1) {
         return {
-          "color":"#409eff",
-          "cursor":"pointer"
+          color: '#409eff',
+          cursor: 'pointer'
         }
       }
     },
-    jump_page(row, column, cell, event){
-      if(cell.style.cssText==="color: rgb(64, 158, 255); cursor: pointer;"){
+    jump_page (row, column, cell, event) {
+      if (cell.style.cssText === 'color: rgb(64, 158, 255); cursor: pointer;') {
         this.$router.push({
-          path:'/dataview'
-        });
-        localStorage.setItem("dataParam",JSON.stringify(row));
+          path: '/dataview'
+        })
+        localStorage.setItem('dataParam', JSON.stringify(row))
       }
     }
   },
@@ -51,16 +51,16 @@ export default {
     return {
       staticData: [
         {
-          name:"data-cim",
-          root_row:2,
-          url:"http://172.16.201.109:18090/iserver/iservices/data/rest"
+          name: 'data-cim',
+          root_row: 2,
+          url: 'http://172.16.201.109:18090/iserver/iservices/data/rest'
         },
         {
           name: 'data-cim',
-          url:"http://172.16.201.109:18090/iserver/iservices/data/wfs"
-        },
+          url: 'http://172.16.201.109:18090/iserver/iservices/data/wfs'
+        }
       ],
-      datas:this.$store.state.data_list
+      datas: this.$store.state.data_list
     }
   }
 }

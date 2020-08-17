@@ -15,78 +15,77 @@
 
 <script>
 
-  export default{
-    name: 'MapServer',
-    methods: {
-      open(row, column, cell, event) {
+export default {
+  name: 'MapServer',
+  methods: {
+    open (row, column, cell, event) {
 
-      },
-      arraySpanMethod({ row, column, rowIndex, columnIndex }){
-        if(columnIndex===0){
-          if(row.root_row&&row.root_row>1){
-            return [row.root_row,1]
-          }else if(row.root_row&&row.root_row===1){
-            return [1,1]
-          }else{
-            return [0,0]
-          }
+    },
+    arraySpanMethod ({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        if (row.root_row && row.root_row > 1) {
+          return [row.root_row, 1]
+        } else if (row.root_row && row.root_row === 1) {
+          return [1, 1]
+        } else {
+          return [0, 0]
         }
-        if(columnIndex===1){
-          if(row.mid_row&&row.mid_row>1){
-            return [row.mid_row,1]
-          }else if(row.mid_row&&row.mid_row===1){
-            return [1,1]
-          }else{
-            return [0,0]
-          }
-        }
-
-      },
-      cell_highlight({ row, column, rowIndex, columnIndex }){
-        if(row.layer_tree_height===2&&columnIndex===1){
-          return {
-            "color":"#409eff",
-            "cursor":"pointer"
-          }
-        }else if(row.layer_tree_height===3&&columnIndex===2){
-          return {
-            "color":"#409eff",
-            "cursor":"pointer"
-          }
-        }
-      },
-      jump_page(row, column, cell, event){
-        if(cell.style.cssText==="color: rgb(64, 158, 255); cursor: pointer;"){
-          //页面路由传递参数
-          // this.$router.push({
-          //   //路径
-          //   path:'/mapview',
-          //   //组件名称
-          //   name:'MapView',
-          //   //传递的参数
-          //   params:{
-          //     data:row,
-          //     html:this.$store.state.editor_data
-          //   }
-          // });
-          this.$router.push({
-            path:'/mapview'
-          })
-          let param = {
-            data:row,
-            html:this.$store.state.editor_data[0]
-          }
-          //将数据存储在客户端
-          localStorage.setItem("mapParam",JSON.stringify(param));
+      }
+      if (columnIndex === 1) {
+        if (row.mid_row && row.mid_row > 1) {
+          return [row.mid_row, 1]
+        } else if (row.mid_row && row.mid_row === 1) {
+          return [1, 1]
+        } else {
+          return [0, 0]
         }
       }
     },
-    data() {
-      return {
-        datas:this.$store.state.map_list
+    cell_highlight ({ row, column, rowIndex, columnIndex }) {
+      if (row.layer_tree_height === 2 && columnIndex === 1) {
+        return {
+          color: '#409eff',
+          cursor: 'pointer'
+        }
+      } else if (row.layer_tree_height === 3 && columnIndex === 2) {
+        return {
+          color: '#409eff',
+          cursor: 'pointer'
+        }
+      }
+    },
+    jump_page (row, column, cell, event) {
+      if (cell.style.cssText === 'color: rgb(64, 158, 255); cursor: pointer;') {
+        // 页面路由传递参数
+        // this.$router.push({
+        //   //路径
+        //   path:'/mapview',
+        //   //组件名称
+        //   name:'MapView',
+        //   //传递的参数
+        //   params:{
+        //     data:row,
+        //     html:this.$store.state.editor_data
+        //   }
+        // });
+        this.$router.push({
+          path: '/mapview'
+        })
+        const param = {
+          data: row,
+          html: this.$store.state.editor_data[0]
+        }
+        // 将数据存储在客户端
+        localStorage.setItem('mapParam', JSON.stringify(param))
       }
     }
+  },
+  data () {
+    return {
+      datas: this.$store.state.map_list
+    }
   }
+}
 </script>
 
 <style lang="less">

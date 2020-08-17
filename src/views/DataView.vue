@@ -14,22 +14,22 @@
 </template>
 
 <script>
-  let message;
-  export default {
-    name: 'DataView',
-    methods: {},
-    mounted() {
-      // console.log(this.$route.params);
-    },
-    data() {
-      let data = JSON.parse(localStorage.getItem("dataParam"));
-      return {
-        name:data.table_name,
-        display_name:data.display_name,
-        datas:data.fields
-      }
+let message
+export default {
+  name: 'DataView',
+  methods: {},
+  mounted () {
+    // console.log(this.$route.params);
+  },
+  data () {
+    const data = JSON.parse(localStorage.getItem('dataParam'))
+    return {
+      name: data.table_name,
+      display_name: data.display_name,
+      datas: data.fields
     }
   }
+}
 </script>
 
 <style lang="less">

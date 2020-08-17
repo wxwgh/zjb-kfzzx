@@ -13,56 +13,56 @@
 </template>
 
 <script>
-let $this;
-let message;
+let $this
+let message
 export default {
   name: 'MapServer',
-  methods:{
-    open(row, column, cell, event){
-      if(!row.children){
-        let html = '<div class="popup">';
-            html +='<div><span>服务名称:</span><span>'+row.parentName+'</span></div>';
-            html +='<div><span>地图列表:</span><span>'+row.name+'</span></div>';
-            if(row.restUrl){
-              html +='<div class="urlspan">\
+  methods: {
+    open (row, column, cell, event) {
+      if (!row.children) {
+        let html = '<div class="popup">'
+        html += '<div><span>服务名称:</span><span>' + row.parentName + '</span></div>'
+        html += '<div><span>地图列表:</span><span>' + row.name + '</span></div>'
+        if (row.restUrl) {
+          html += '<div class="urlspan">\
                         <span>rest服务地址:</span>\
-                        <input readonly="readonly" title="'+row.restUrl+'" value="'+row.restUrl+'"></input>\
+                        <input readonly="readonly" title="' + row.restUrl + '" value="' + row.restUrl + '"></input>\
                         <i class="el-icon-copy-document" >复制</i>\
-                      </div>';
-            }
-            if(row.wmtsUrl){
-              html +='<div class="urlspan">\
+                      </div>'
+        }
+        if (row.wmtsUrl) {
+          html += '<div class="urlspan">\
                         <span>wmts服务地址111111111:</span>\
-                        <input readonly="readonly" title="'+row.wmtsUrl+'" value="'+row.wmtsUrl+'"></input>\
+                        <input readonly="readonly" title="' + row.wmtsUrl + '" value="' + row.wmtsUrl + '"></input>\
                         <i class="el-icon-copy-document">复制</i>\
-                      </div>';
-            }
-            html += '</div>';
-        $this=this;
+                      </div>'
+        }
+        html += '</div>'
+        $this = this
         this.$msgbox({
-          title:"地图服务详情",
-          message:html,
-          dangerouslyUseHTMLString:true,
-          showConfirmButton:false,
-          closeOnClickModal:false
+          title: '地图服务详情',
+          message: html,
+          dangerouslyUseHTMLString: true,
+          showConfirmButton: false,
+          closeOnClickModal: false
         })
-        .catch(function(){
-          //此处解决Uncaught (in promise) cancel 报错
-        });
-        $(document).unbind().on("click",".el-icon-copy-document",function(){
-          //选择内容
-          $(this).prev().select();
+          .catch(function () {
+          // 此处解决Uncaught (in promise) cancel 报错
+          })
+        $(document).unbind().on('click', '.el-icon-copy-document', function () {
+          // 选择内容
+          $(this).prev().select()
           // 执行浏览器复制命令
-          document.execCommand("Copy");
+          document.execCommand('Copy')
           // alert("已复制好，可贴粘。");
-          if(message){
-            message.close();
+          if (message) {
+            message.close()
           }
-          message=$this.$message({
+          message = $this.$message({
             message: '复制成功',
             type: 'success',
-            center:true,
-          });
+            center: true
+          })
         })
       }
     }
@@ -79,23 +79,23 @@ export default {
             {
               id: '4',
               name: 'china1',
-              parentName:"china400",
+              parentName: 'china400',
               description: '中国地图1',
-              restUrl:"http://127.0.0.1:8090/iserver/rest",
-              wmtsUrl:"http://127.0.0.1:8090/iserver/wmts1111111111111111111111111111111111111"
+              restUrl: 'http://127.0.0.1:8090/iserver/rest',
+              wmtsUrl: 'http://127.0.0.1:8090/iserver/wmts1111111111111111111111111111111111111'
             },
             {
               id: '5',
               name: 'china2',
-              parentName:"china400",
+              parentName: 'china400',
               description: '中国地图2',
-              restUrl:"http://127.0.0.1:8090/iserver/rest",
-              wmtsUrl:"http://127.0.0.1:8090/iserver/wmts"
+              restUrl: 'http://127.0.0.1:8090/iserver/rest',
+              wmtsUrl: 'http://127.0.0.1:8090/iserver/wmts'
             }
           ]
         },
         {
-          id:"3",
+          id: '3',
           name: 'china',
           description: '中国地图黑色'
         }

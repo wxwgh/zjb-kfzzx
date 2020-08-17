@@ -25,125 +25,125 @@
           </div>
         </transition>
         <el-button id="editorButton" type="primary" @click="isShow" icon="el-icon-edit" circle v-if="!flag"></el-button>
-        <el-button id="editorButton" type="primary" @click="isShow" icon="el-icon-rank" circle v-else="flag"></el-button>
+        <el-button id="editorButton" type="primary" @click="isShow" icon="el-icon-rank" circle v-else-if="flag"></el-button>
       </div>
     </el-main>
   </el-container>
 </template>
 
 <script>
-  let message;
-  export default {
-    name: 'MapView',
-    components: {
-      editor: require("vue2-ace-editor")
+let message
+export default {
+  name: 'MapView',
+  components: {
+    editor: require('vue2-ace-editor')
+  },
+  methods: {
+    editorInit () {
+      require('brace/ext/language_tools') // language extension prerequsite...
+      require('brace/mode/html')
+      require('brace/mode/javascript') // language
+      require('brace/mode/less')
+      require('brace/theme/chrome')
+      require('brace/snippets/javascript') // snippet
+      const editor = ace.edit('editor')
+      // 启用自动换行
+      editor.getSession().setUseWrapMode(true)
     },
-    methods: {
-      editorInit() {
-        require('brace/ext/language_tools') //language extension prerequsite...
-        require('brace/mode/html')
-        require('brace/mode/javascript') //language
-        require('brace/mode/less')
-        require('brace/theme/chrome')
-        require('brace/snippets/javascript') //snippet
-        let editor = ace.edit("editor");
-        //启用自动换行
-        editor.getSession().setUseWrapMode(true);
-      },
-      reset(){
-        this.content=this.$store.state.editor_data[0];
-      },
-      //初始化地图
-      initMap(){
-        if($("#map")){
-          $("#map").remove();
+    reset () {
+      this.content = this.$store.state.editor_data[0]
+    },
+    // 初始化地图
+    initMap () {
+      if ($('#map')) {
+        $('#map').remove()
+      }
+      const html = '<iframe id="map" name="map"></iframe>'
+      $('#mapParent').append(html)
+      const dom = document.getElementById('map').contentWindow.document
+      dom.open()
+      dom.write(this.content)
+      dom.close()
+    },
+    isShow () {
+      if (this.flag) {
+        this.flag = false
+      } else {
+        this.flag = true
+      }
+    },
+    copy (row) {
+      const _this = this
+      this.$copyText(row.value).then(function (e) {
+        if (message) {
+          message.close()
         }
-        let html = '<iframe id="map" name="map"></iframe>';
-        $("#mapParent").append(html);
-        let dom = document.getElementById("map").contentWindow.document;
-        dom.open();
-        dom.write(this.content);
-        dom.close();
-      },
-      isShow(){
-        if(this.flag){
-          this.flag=false;
-        }else{
-          this.flag=true;
-        }
-      },
-      copy(row) {
-        let _this = this;
-        this.$copyText(row.value).then(function (e) {
-          if (message) {
-            message.close();
-          }
-          message = _this.$message({
-            message: '复制成功',
-            type: 'success',
-            center: true,
-          });
+        message = _this.$message({
+          message: '复制成功',
+          type: 'success',
+          center: true
         })
-      },
-      columnStyle() {
-        return {
-          "padding": "0"
-        }
-      },
-      rowStyle() {
-        return {
-          "height": "30px"
-        }
-      }
+      })
     },
-    mounted() {
-      //获取数据
-      let content = JSON.parse(localStorage.getItem("mapParam")).html;
-      //初始化地图
-      if($("#map")){
-        $("#map").remove();
-      }
-      let html = '<iframe id="map" name="map"></iframe>';
-      $("#mapParent").append(html);
-      let dom = document.getElementById("map").contentWindow.document;
-      dom.open();
-      dom.write(content);
-      dom.close();
-    },
-    data() {
-      //获取数据
-      let data = JSON.parse(localStorage.getItem("mapParam")).data;
-      let content =JSON.parse(localStorage.getItem("mapParam")).html;
-      let name;
-      if (data.layer_tree_height === 2) {
-        name=data.mid_node
-      }else{
-        name=data.tail_node
-      }
+    columnStyle () {
       return {
-        name: name,
-        datas: [{
-            type: "rest",
-            value: data.rest + "/{参数}"
-          },
-          {
-            type: "wmts_china",
-            value: data.wmts_china
-          },
-          {
-            type: "wmts100",
-            value: data.wmts100
-          },
-          {
-            type: "param",
-            value: data.params
-          }
-        ],
-        content:content,
-        flag:false
+        padding: '0'
+      }
+    },
+    rowStyle () {
+      return {
+        height: '30px'
       }
     }
+  },
+  mounted () {
+    // 获取数据
+    const content = JSON.parse(localStorage.getItem('mapParam')).html
+    // 初始化地图
+    if ($('#map')) {
+      $('#map').remove()
+    }
+    const html = '<iframe id="map" name="map"></iframe>'
+    $('#mapParent').append(html)
+    const dom = document.getElementById('map').contentWindow.document
+    dom.open()
+    dom.write(content)
+    dom.close()
+  },
+  data () {
+    // 获取数据
+    const data = JSON.parse(localStorage.getItem('mapParam')).data
+    const content = JSON.parse(localStorage.getItem('mapParam')).html
+    let name
+    if (data.layer_tree_height === 2) {
+      name = data.mid_node
+    } else {
+      name = data.tail_node
+    }
+    return {
+      name: name,
+      datas: [{
+        type: 'rest',
+        value: data.rest + '/{参数}'
+      },
+      {
+        type: 'wmts_china',
+        value: data.wmts_china
+      },
+      {
+        type: 'wmts100',
+        value: data.wmts100
+      },
+      {
+        type: 'param',
+        value: data.params
+      }
+      ],
+      content: content,
+      flag: false
+    }
   }
+}
 </script>
 
 <style lang="less">
