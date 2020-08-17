@@ -1,0 +1,23 @@
+<!--图层叠加范例-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style=" margin: 0;overflow: hidden;background: #fff;width: 100%;height:100%;position: absolute;top: 0;">
+<div id="map" style="margin:0 auto;width: 100%;height: 100%"></div>
+<script type="text/javascript" src="leaflet.js"></script>
+<script type="text/javascript" src="iclient-leaflet.js"></script>
+<script type="text/javascript">
+    let host = "http://192.168.1.104:8090";
+	let url = host + "/iserver/services/map-china400/rest/maps/China";
+    let map = L.map('map', {
+        center: [39,105],
+        maxZoom: 18,
+        minZoom: 1,
+        zoom: 4,
+    });
+    L.supermap.imageMapLayer(url, {transparent: false}).addTo(map);
+</script>
+</body>
+</html>

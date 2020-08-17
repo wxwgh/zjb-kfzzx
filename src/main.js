@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/index'
+import VueClipboard from 'vue-clipboard2'
 import "element-ui/lib/theme-chalk/index.css"
-
-
+import axios from 'axios'
+import $ from 'jquery'
 
 import {
   Pagination,
@@ -140,7 +141,6 @@ Vue.use(Main);
 Vue.use(Footer);
 
 Vue.use(Loading.directive);
-
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
@@ -157,13 +157,16 @@ Vue.prototype.UUID=function() {
 
 Vue.config.productionTip = false
 
+Vue.prototype.$axios = axios;
+//引用复制插件
+Vue.use(VueClipboard)
 const vue= new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
 
-// window.addEventListener('load',function(){
-//   console.log(vue.$router);
-//   vue.$router.replace('/')
-// })
+window.addEventListener('load',function(){
+  vue.$router.replace('/mapserver')
+
+})

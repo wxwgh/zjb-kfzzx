@@ -9,11 +9,14 @@
     "stylelint": "stylelint src/**/*.vue --fix"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "jquery": "^3.5.1",
     "vue": "^2.6.11",
+    "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.2.0",
+    "vue2-ace-editor": "0.0.15",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

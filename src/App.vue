@@ -21,7 +21,7 @@ export default {
   name: 'App',
   components: {
     Menu
-  }
+  },
 }
 </script>
 <style lang="less">

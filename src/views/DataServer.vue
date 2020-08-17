@@ -4,12 +4,14 @@
       <h1>数据服务列表</h1>
     </el-header>
     <el-main>
-      <div id="datalink">
-        <span>注:具体数据库表请到<span>数据管理</span>下进行查看</span>
-      </div>
-      <el-table id="datatable" :data="tableData" border height="95%" style="width: 100%" :span-method="objectSpanMethod">
+      <el-table :data="staticData" border height="146" row-key="1"  style="width: 100%" :span-method="arraySpanMethod">
         <el-table-column prop="name" label="服务名称" show-overflow-tooltip ></el-table-column>
         <el-table-column prop="url" label="服务地址" show-overflow-tooltip></el-table-column>
+      </el-table>
+      <h2>数据库表</h2>
+      <el-table :data="datas" @cell-click="jump_page" border height="72%" row-key="1111" :cell-style="cell_highlight" style="width: 100%">
+        <el-table-column prop="table_name" label="表名" show-overflow-tooltip ></el-table-column>
+        <el-table-column prop="display_name" label="数据库表(中文)" show-overflow-tooltip></el-table-column>
       </el-table>
     </el-main>
   </el-container>
@@ -19,72 +21,57 @@
 export default {
   name: 'DataServer',
   methods:{
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
-        if(row.index){
-            return {
-              rowspan: row.index[0],
-              colspan: row.index[1]
-            };
+        if(row.root_row){
+            return [row.root_row,1]
         }else{
-          return {
-            rowspan: 0,
-            colspan: 0
-          };
+          return [0,0]
         }
+      }
+    },
+    cell_highlight({ row, column, rowIndex, columnIndex }){
+      if(columnIndex===1){
+        return {
+          "color":"#409eff",
+          "cursor":"pointer"
+        }
+      }
+    },
+    jump_page(row, column, cell, event){
+      if(cell.style.cssText==="color: rgb(64, 158, 255); cursor: pointer;"){
+        this.$router.push({
+          path:'/dataview'
+        });
+        localStorage.setItem("dataParam",JSON.stringify(row));
       }
     }
   },
   data: function () {
     return {
-      tableData: [
+      staticData: [
         {
-          id: this.UUID(),
-          name: 'xy',
-          type:"rest",
-          index:[2,1],
-          url:"http://127.0.0.1:8090/rest"
+          name:"data-cim",
+          root_row:2,
+          url:"http://172.16.201.109:18090/iserver/iservices/data/rest"
         },
         {
-          id: this.UUID(),
-          name: 'xy',
-          type:"wmts",
-          url: "http://127.0.0.1:8090/wmts"
+          name: 'data-cim',
+          url:"http://172.16.201.109:18090/iserver/iservices/data/wfs"
         },
-        {
-          id: this.UUID(),
-          name: 'zv',
-          type:"rest",
-          index:[2,1],
-          url: "http://localhost:8090/rest"
-        },
-        {
-          id: this.UUID(),
-          name: 'zv',
-          type:"wmts",
-          url: "http://localhost:8090/wmts"
-        }
-      ]
+      ],
+      datas:this.$store.state.data_list
     }
   }
 }
 </script>
 
 <style lang="less">
-@color:#0074D9;
-@line-height:24px;
-@cursor:pointer;
-#datalink{
-  width: 100%;
-  line-height: 24px;
-  font-size: 12px;
-  text-align: right;
+
+h2{
+  font-size: 16px;
+  font-weight:normal;
+  margin-top:10px;
+  margin-bottom: 10px;
 }
-#datalink>span>span{
-  color: @color;
-  cursor: @cursor;
-}
-// #datatable tbody tr:hover>td {
-//   background-color:#ffffff!important;
-// }
 </style>
