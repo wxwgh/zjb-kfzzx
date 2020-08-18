@@ -10,7 +10,9 @@
 <script type="text/javascript" src="iclient-leaflet.js"></script>
 <script type="text/javascript">
     let host = "http://127.0.0.1:8090";
-	let url = host + "/iserver/services/map-china400/rest/maps/China";
+	let server = "/iserver/services/map-china400/rest/maps/";
+	let param = "China";
+	let url = host + server + param;
     let map = L.map('map', {
         center: [39,105],
         maxZoom: 7,

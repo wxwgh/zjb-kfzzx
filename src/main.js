@@ -148,7 +148,7 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 Vue.prototype.$message = Message
-Vue.prototype.UUID = function () {
+Vue.prototype.$UUID = function () {
   function S4 () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }

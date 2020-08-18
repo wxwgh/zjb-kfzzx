@@ -4,14 +4,14 @@
       <h1>数据服务列表</h1>
     </el-header>
     <el-main>
-      <el-table :data="staticData" border height="146" row-key="1"  style="width: 100%" :span-method="arraySpanMethod">
-        <el-table-column prop="name" label="服务名称" show-overflow-tooltip ></el-table-column>
-        <el-table-column prop="url" label="服务地址" show-overflow-tooltip></el-table-column>
+      <el-table :data="staticData" border height="146" row-key="1" :span-method="arraySpanMethod">
+        <el-table-column prop="name" width="200" align="center" label="服务名称" show-overflow-tooltip ></el-table-column>
+        <el-table-column prop="url" label="服务地址" align="center" show-overflow-tooltip></el-table-column>
       </el-table>
       <h2>数据库表</h2>
-      <el-table :data="datas" @cell-click="jump_page" border height="72%" row-key="1111" :cell-style="cell_highlight" style="width: 100%">
-        <el-table-column prop="table_name" label="表名" show-overflow-tooltip ></el-table-column>
-        <el-table-column prop="display_name" label="数据库表(中文)" show-overflow-tooltip></el-table-column>
+      <el-table :data="datas" @cell-click="jump_page" border height="72%" row-key="1111" :cell-style="cell_highlight" >
+        <el-table-column prop="table_name" width="200" align="center" label="表名" show-overflow-tooltip ></el-table-column>
+        <el-table-column prop="display_name" align="center" label="数据库表(中文)" show-overflow-tooltip></el-table-column>
       </el-table>
     </el-main>
   </el-container>

@@ -4,10 +4,10 @@
       <h1>{{name}}</h1>
     </el-header>
     <el-main>
-      <el-table :data="datas" :show-header=false max-height="166" row-key="1" :row-style="rowStyle" :cell-style="columnStyle">
-        <el-table-column prop="type" label="类型" width="150" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="value" label="值" show-overflow-tooltip></el-table-column>
-        <el-table-column label="操作" prop="link">
+      <el-table :data="datas" border :tree-props="{children: 'children'}" style="width:100%" :show-header=false max-height="100%" row-key="paramId" :row-style="rowStyle" :cell-style="columnStyle">
+        <el-table-column prop="type" align="center" label="类型" min-width="20%" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="value" align="center" label="值" show-overflow-tooltip></el-table-column>
+        <el-table-column label="操作" align="center" min-width="20%" prop="link">
           <template slot-scope="scope">
             <el-button style="color: #409EFF;" type="text" @click="copy(scope.row)">[复制URL]</el-button>
           </template>
@@ -114,30 +114,45 @@ export default {
     // 获取数据
     const data = JSON.parse(localStorage.getItem('mapParam')).data
     const content = JSON.parse(localStorage.getItem('mapParam')).html
-    let name
-    if (data.layer_tree_height === 2) {
-      name = data.mid_node
-    } else {
-      name = data.tail_node
-    }
-    return {
-      name: name,
-      datas: [{
-        type: 'rest',
-        value: data.rest + '/{参数}'
-      },
-      {
-        type: 'wmts_china',
-        value: data.wmts_china
-      },
-      {
-        type: 'wmts100',
-        value: data.wmts100
-      },
-      {
-        type: 'param',
-        value: data.params
+    let paramValue;
+    let children=[];
+    for(let i=0;i<data.params.length;i++){
+      for(let key in data.params[i]){
+        if(i===0){
+          paramValue="{"+key+"}";
+        }
+        let temp={};
+        temp.paramId=this.$UUID();
+        temp.type = data.params[i][key];
+        temp.value = key;
+        children.push(temp);
       }
+    }
+    console.log(children);
+    return {
+      name: data.tail_node,
+      datas: [
+        {
+          paramId:this.$UUID(),
+          type: '服务描述',
+          value: "地图服务描述"
+        },
+        {
+          paramId:this.$UUID(),
+          type: '平台格式',
+          value: this.$store.state.map_host+data.rest + '/{参数}'
+        },
+        {
+          paramId:this.$UUID(),
+          type: 'OGC格式',
+          value: this.$store.state.map_host+data.wmts100
+        },
+        {
+          paramId:this.$UUID(),
+          type: '参数示例',
+          value: paramValue,
+          children:children
+        }
       ],
       content: content,
       flag: false

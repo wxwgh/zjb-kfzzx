@@ -4,10 +4,11 @@
       <h1>地图服务列表</h1>
     </el-header>
     <el-main>
-      <el-table border :data="datas"  @cell-click="jump_page" :cell-style="cell_highlight" height="100%" style="width: 100%" row-key="1" :span-method="arraySpanMethod">
-        <el-table-column prop="root_node" label="一级目录" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="mid_node" label="二级目录" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="tail_node" label="三级目录" show-overflow-tooltip></el-table-column>
+      <el-table border :data="datas" @cell-click="jump_page" :cell-style="cell_highlight" height="100%" row-key="1" :span-method="arraySpanMethod">
+        <el-table-column prop="root_node" align="center" width="200" label="服务大类" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="mid_node" align="center" width="200" label="服务小类" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="tail_node" align="center" width="200" label="服务名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="tail_node" align="center" label="服务描述" show-overflow-tooltip></el-table-column>
       </el-table>
     </el-main>
   </el-container>
@@ -42,12 +43,7 @@ export default {
       }
     },
     cell_highlight ({ row, column, rowIndex, columnIndex }) {
-      if (row.layer_tree_height === 2 && columnIndex === 1) {
-        return {
-          color: '#409eff',
-          cursor: 'pointer'
-        }
-      } else if (row.layer_tree_height === 3 && columnIndex === 2) {
+      if(columnIndex===2){
         return {
           color: '#409eff',
           cursor: 'pointer'
@@ -56,21 +52,15 @@ export default {
     },
     jump_page (row, column, cell, event) {
       if (cell.style.cssText === 'color: rgb(64, 158, 255); cursor: pointer;') {
-        // 页面路由传递参数
-        // this.$router.push({
-        //   //路径
-        //   path:'/mapview',
-        //   //组件名称
-        //   name:'MapView',
-        //   //传递的参数
-        //   params:{
-        //     data:row,
-        //     html:this.$store.state.editor_data
-        //   }
-        // });
         this.$router.push({
           path: '/mapview'
         })
+        let data={
+          server:row.rest+"/",
+          param:Object.keys(row.params[0])[0]
+        };
+        //修改地图模板
+        this.$store.commit("set_editor_text",data);
         const param = {
           data: row,
           html: this.$store.state.editor_data[0]
