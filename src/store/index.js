@@ -30,12 +30,19 @@ const vm = new Vuex.Store({
   modules: {}
 })
 export default vm
-let ServerHost="http://192.168.83.30:5000";
-console.log(ServerHost);
+
+const ServerHost="http://192.168.84.30:5000";
+
+//地图列表地址
+const mapUrl=ServerHost+'/map_list/get_map_list';
+
+//数据列表地址
+const dataUrl=ServerHost+'/data_list/get_data_list';
+
 // 获取地图列表
 axios({
   method: 'get',
-  url: ServerHost+'/map_list/get_map_list'
+  url: mapUrl
 })
   .then(function (result) {
     const datas = result.data
@@ -74,7 +81,7 @@ axios({
 // 获取数据列表
 axios({
   method: 'get',
-  url: ServerHost+'/data_list/get_data_list'
+  url: dataUrl
 })
   .then(function (result) {
     const datas = result.data

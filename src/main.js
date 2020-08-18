@@ -158,6 +158,7 @@ Vue.prototype.UUID = function () {
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios
+
 // 引用复制插件
 Vue.use(VueClipboard)
 const vue = new Vue({
