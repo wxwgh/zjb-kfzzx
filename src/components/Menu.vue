@@ -4,6 +4,10 @@
       <i class="el-icon-location"></i>
       <span slot="title">地图服务</span>
     </el-menu-item>
+    <el-menu-item index="/spatialserver">
+      <i class="el-icon-s-marketing"></i>
+      <span slot="title">空间分析服务</span>
+    </el-menu-item>
     <el-menu-item index="/dataserver">
       <i class="el-icon-menu"></i>
       <span slot="title">数据服务</span>

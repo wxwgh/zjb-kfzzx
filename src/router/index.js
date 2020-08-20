@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MapServer from '../views/MapServer.vue'
 import DataServer from '../views/DataServer.vue'
+import SpatialServer from '../views/SpatialServer.vue'
+import SpatialView from '../views/SpatialView.vue'
 import MapView from '../views/MapView.vue'
 import DataView from '../views/DataView.vue'
 
@@ -36,6 +38,16 @@ const routes = [
     path: '/dataview',
     name: 'DataView',
     component: DataView
+  },
+  {
+    path: '/spatialserver',
+    name: 'SpatialServer',
+    component: SpatialServer
+  },
+  {
+    path: '/spatialview',
+    name: 'SpatialView',
+    component: SpatialView
   }
 
 ]

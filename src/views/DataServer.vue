@@ -1,16 +1,16 @@
 <template>
   <el-container class="container">
-    <el-header>
+    <el-header id="header">
       <h1>数据服务列表</h1>
     </el-header>
     <el-main>
-      <el-table :data="staticData" border height="146" row-key="1" :span-method="arraySpanMethod">
-        <el-table-column prop="name" width="200" align="center" label="服务名称" show-overflow-tooltip ></el-table-column>
+      <el-table id="map_table" :data="staticData" border height="146" :span-method="arraySpanMethod">
+        <el-table-column prop="name" min-width="40%" align="center" label="服务名称" show-overflow-tooltip ></el-table-column>
         <el-table-column prop="url" label="服务地址" align="center" show-overflow-tooltip></el-table-column>
       </el-table>
       <h2>数据库表</h2>
-      <el-table :data="datas" @cell-click="jump_page" border height="72%" row-key="1111" :cell-style="cell_highlight" >
-        <el-table-column prop="table_name" width="200" align="center" label="表名" show-overflow-tooltip ></el-table-column>
+      <el-table id="map_table" :data="datas" @cell-click="jump_page" border height="72%" row-key="id" :cell-style="cell_highlight" >
+        <el-table-column prop="table_name" min-width="40%" align="center" label="表名" show-overflow-tooltip ></el-table-column>
         <el-table-column prop="display_name" align="center" label="数据库表(中文)" show-overflow-tooltip></el-table-column>
       </el-table>
     </el-main>
@@ -53,11 +53,11 @@ export default {
         {
           name: 'data-cim',
           root_row: 2,
-          url: 'http://172.16.201.109:18090/iserver/iservices/data/rest'
+          url: this.$store.state.map_host+'/iserver/iservices/data/rest'
         },
         {
           name: 'data-cim',
-          url: 'http://172.16.201.109:18090/iserver/iservices/data/wfs'
+          url: this.$store.state.map_host+'/iserver/iservices/data/wfs'
         }
       ],
       datas: this.$store.state.data_list
@@ -73,5 +73,6 @@ h2{
   font-weight:normal;
   margin-top:10px;
   margin-bottom: 10px;
+  margin-left: 15%;
 }
 </style>

@@ -1,21 +1,20 @@
 <template>
   <el-container class="container">
-    <el-header>
+    <el-header id="header">
       <h1>地图服务列表</h1>
     </el-header>
     <el-main>
-      <el-table border :data="datas" @cell-click="jump_page" :cell-style="cell_highlight" height="100%" row-key="1" :span-method="arraySpanMethod">
-        <el-table-column prop="root_node" align="center" width="200" label="服务大类" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="mid_node" align="center" width="200" label="服务小类" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="tail_node" align="center" width="200" label="服务名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="tail_node" align="center" label="服务描述" show-overflow-tooltip></el-table-column>
+      <el-table id="map_table" border :data="datas" @cell-click="jump_page" :cell-style="cell_highlight" height="100%" row-key="id" :span-method="arraySpanMethod">
+        <el-table-column prop="root_node" align="center" min-width="40%" label="服务大类" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="mid_node" align="center" min-width="40%" label="服务小类" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="tail_node" align="center" min-width="40%" label="服务名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="service_desc" align="center" label="服务描述" show-overflow-tooltip></el-table-column>
       </el-table>
     </el-main>
   </el-container>
 </template>
 
 <script>
-
 export default {
   name: 'MapServer',
   methods: {
@@ -51,22 +50,25 @@ export default {
       }
     },
     jump_page (row, column, cell, event) {
+      let _this=this;
       if (cell.style.cssText === 'color: rgb(64, 158, 255); cursor: pointer;') {
-        this.$router.push({
-          path: '/mapview'
+        this.$axios({
+          method: 'get',
+          url: 'map.html'
+        }).then(function (result) {
+          _this.$store.commit('get_editor_text', result.data)
+          let data={
+            server:row.rest+"/",
+            param:"\""+Object.keys(row.params[0])[0]+"\""
+          };
+          //修改地图模板
+          _this.$store.commit("set_editor_text",data);
+          _this.$router.push({
+            path: '/mapview'
+          })
         })
-        let data={
-          server:row.rest+"/",
-          param:Object.keys(row.params[0])[0]
-        };
-        //修改地图模板
-        this.$store.commit("set_editor_text",data);
-        const param = {
-          data: row,
-          html: this.$store.state.editor_data[0]
-        }
         // 将数据存储在客户端
-        localStorage.setItem('mapParam', JSON.stringify(param))
+        localStorage.setItem('mapParam', JSON.stringify(row))
       }
     }
   },
@@ -79,5 +81,11 @@ export default {
 </script>
 
 <style lang="less">
-
+#map_table{
+  width:70%;
+  margin-left:15%;
+}
+#header{
+  text-align: center;
+}
 </style>

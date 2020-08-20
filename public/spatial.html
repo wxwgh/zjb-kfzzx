@@ -1,0 +1,39 @@
+<!-- 空间分析服务 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<link href="leaflet/iclient-leaflet.css" rel="stylesheet" />
+	<link href="leaflet/leaflet.css" rel="stylesheet" />
+</head>
+<body style=" margin: 0;overflow: hidden;background: #fff;width: 100%;height:100%;position: absolute;top: 0;">
+<div id="map" style="margin:0 auto;width: 100%;height: 100%"></div>
+<script type="text/javascript" src="leaflet/leaflet.js"></script>
+<script type="text/javascript" src="leaflet/iclient-leaflet.js"></script>
+<script type="text/javascript" src="axios.js"></script>
+<script type="text/javascript">
+    let host = "";
+    let server = "/cim_service/api/v1/buffer/xzjsyd";
+	let param = {xzqhdm:"广州",bufferDistance:1000};
+	let url = host + server;
+	
+	let mapUrl = "http://127.0.0.1:8090/iserver/services/map-china400/rest/maps/ChinaDark";
+    let map = L.map('map', {
+        center: [0,0],
+        zoom: 1,
+    });
+	L.supermap.imageMapLayer(mapUrl, {transparent: false}).addTo(map);
+	axios({
+	  method: 'post',
+	  url: url,
+	  data:param
+	}).then(function (result) {
+		let resultLayer = L.geoJSON(result.data.features, {color: "red"}).addTo(map);
+		let center = resultLayer.getBounds().getCenter();
+		map.setView(center,10);
+	})
+
+	
+</script>
+</body>
+</html>
